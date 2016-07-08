@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+     <route id="test">
+         <from uri="timer://trigger"/>
+         <log message="headers=${in.headers}" />
+     </route>
+</routes>
