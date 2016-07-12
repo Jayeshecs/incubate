@@ -2,17 +2,26 @@
 <beanio xmlns="http://www.beanio.org/2012/03" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
 
-	<stream name="studentFile" format="csv">
+	<stream name="studentFile" format="csv" >
 		<parser>
 			<property name="multilineEnabled" value="true"/>
 			<property name="whitespaceAllowed" value="true"/>
 			<property name="unquotedQuotesAllowed" value="true"/>
 		</parser>
 		
-		<record name="student" class="map">
+		<record name="header" class="map" >
+			<field name="FamilyName" rid="true" literal="FamilyName"/>
+			<field name="FirstName" />
+			<field name="dateOfBirth"/>
+			<field name="standard" />
+			<field name="division" />
+			<field name="header" default="true" type="boolean" minOccurs="0" maxOccurs="1"/>
+		</record>
+		
+		<record name="student" class="map" >
 			<field name="FamilyName" />
 			<field name="FirstName" />
-			<field name="dateOfBirth" />
+			<field name="dateOfBirth" type="date" format="MM/dd/yyyy"/>
 			<field name="standard" />
 			<field name="division" />
 		</record>

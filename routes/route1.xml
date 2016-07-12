@@ -5,10 +5,29 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
      <route id="route-test-csv-in">
      	<from uri="file:files/in?moveFailed=.error&amp;idempotent=true&amp;readLock=changed" />
-		<unmarshal ref="studentFile" />
-		<split>
-			<simple>${body}</simple>
-			<log message="Record=${body}" />     	
+		<setHeader headerName="CamelFileName"><simple>output-${date:now:yyyyMMddhhmm}.csv</simple></setHeader>
+		<split parallelProcessing="false" streaming="true" stopOnException="false">
+			<tokenize token="\r\n|\n" regex="true" trim="false" />
+			<pipeline>
+				<setHeader headerName="original"><simple>${body}${sys.line.separator}</simple></setHeader>
+				<unmarshal ref="studentFile" />
+				<setBody>
+					<simple>${body.get(0)}</simple>
+				</setBody>
+				<choice>
+					<when>
+						<simple>${body.get("header")}</simple>
+						<log message="Header=${body}" />
+						<setBody><simple>${headers.original}</simple></setBody>
+						<to uri="file:files/out?fileExist=Override" />     	
+					</when>
+					<otherwise>
+						<log message="Record=${body}" />
+						<marshal ref="studentFile" />
+						<to uri="file:files/out?fileExist=Append" />
+					</otherwise>
+				</choice>
+			</pipeline>
 		</split>
      </route>
 </routes>
