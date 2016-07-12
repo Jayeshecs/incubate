@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
@@ -21,6 +20,7 @@ import org.apache.camel.model.DataFormatDefinition;
 import org.apache.camel.model.RoutesDefinition;
 import org.apache.camel.model.dataformat.BeanioDataFormat;
 import org.apache.camel.spring.boot.CamelContextConfiguration;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,9 +34,14 @@ import data.integration.eip.error.EtlRedeliveryProcessor;
  */
 @Configuration
 public class BeanIOConfiguration implements CamelContextConfiguration {
+	
+	private static Logger LOG = Logger.getLogger(BeanIOConfiguration.class);
 
 	@Autowired
 	BeanIOProperties properties;
+
+	@Autowired
+	CamelProperties camelProperties;
 	
 	@Autowired
 	CamelContext camelContext;
@@ -48,12 +53,14 @@ public class BeanIOConfiguration implements CamelContextConfiguration {
 	
 	@Override
 	public void beforeApplicationStart(CamelContext camelContext) {
+		LOG.info("beforeApplicationStart - setting ErrorHandlerBuilder to camel context ...");
 		// register error handler builder
 		camelContext.setErrorHandlerBuilder(
 				new DefaultErrorHandlerBuilder()
 					.onExceptionOccurred(new EtlErrorProcessor())
 					.onRedelivery(new EtlRedeliveryProcessor())
 					.onPrepareFailure(new EtlPrepareFailureProcessor()));
+		LOG.info("beforeApplicationStart - adding beanio mappings and streams as data format defintion to camel context ...");
 		Map<String, DataFormatDefinition> dataFormats = camelContext.getDataFormats();
 		for(String stream : properties.getStreams().split(",")) {
 			BeanioDataFormat dataFormatDefinition = new BeanioDataFormat();
@@ -69,14 +76,12 @@ public class BeanIOConfiguration implements CamelContextConfiguration {
 		if(reloadRouteAdded) {
 			return ;
 		}
-		// DO NOTHING
-		System.out.println("=================>>> afterApplicationStart");
+		LOG.info("afterApplicationStart - adding route to reload routes from configured routes location ...");
 		try {
 			camelContext.addRoutes(new RouteBuilder() {
 				
 				@Override
 				public void configure() throws Exception {
-					// TODO Auto-generated method stub
 					from("file:files/reload").process(new Processor() {
 						
 						@Override
@@ -88,34 +93,28 @@ public class BeanIOConfiguration implements CamelContextConfiguration {
 			});
 			reloadRouteAdded = true;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Exception occurred while adding reload route", e);
 		}
 	}
 	
 	public void reloadRoutes() {
 		try {
 			// TODO: see http://camel.apache.org/loading-routes-from-xml-files.html
-			File routesDirectory = new File("routes");
+			File routesDirectory = new File(camelProperties.getRoutesLocation());
 			String[] routeFiles = routesDirectory.list(new FilenameFilter() {
 				
 				@Override
 				public boolean accept(File dir, String name) {
-					return name.endsWith(".xml");
+					return name.endsWith(".xml"); // all xml files
 				}
 			});
 			for(String routeFile : routeFiles) {
 				reloadRoutesXml(routesDirectory, routeFile);
 			}
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("reloadRoutes - File not found exception", e);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("reloadRoutes - Exception occurred while reloading routes from xml files", e);
 		}
 	}
 
