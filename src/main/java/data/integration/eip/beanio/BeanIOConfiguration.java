@@ -100,6 +100,7 @@ public class BeanIOConfiguration implements CamelContextConfiguration {
 	public void reloadRoutes() {
 		try {
 			// TODO: see http://camel.apache.org/loading-routes-from-xml-files.html
+			// JIRA for reload of beanio mappings -> https://issues.apache.org/jira/browse/CAMEL-10138
 			File routesDirectory = new File(camelProperties.getRoutesLocation());
 			String[] routeFiles = routesDirectory.list(new FilenameFilter() {
 				
