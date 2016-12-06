@@ -10,6 +10,12 @@
 	<packaging>jar</packaging>
 
 	<properties>
+        <scala.binary.version>2.11</scala.binary.version>
+        <spark.version>1.6.0</spark.version>
+        <scala.version>2.11.7</scala.version>
+        <jcommander.version>1.27</jcommander.version>
+        <spark.scope>compile</spark.scope>
+        
 		<nd4j.backend>nd4j-native-platform</nd4j.backend>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<shadedClassifier>bin</shadedClassifier>
@@ -29,6 +35,44 @@
 	</properties>
 
 	<dependencies>
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native-platform</artifactId>
+            <version>${nd4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>dl4j-spark_${scala.binary.version}</artifactId>
+            <version>${dl4j.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spark-core_2.10</artifactId>
+                    <groupId>org.apache.spark</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>${spark.scope}</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>${jcommander.version}</version>
+        </dependency>
+        
 		<dependency>
 			<groupId>org.deeplearning4j</groupId>
 			<artifactId>deeplearning4j-ui</artifactId>
