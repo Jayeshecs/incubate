@@ -1,4 +1,19 @@
+# Folders to ignore
+target/
+.settings/
+bin/
+
+# Java classes to ignore
 *.class
+.classpath
+.project
+
+# hsql-db temporary files/folders
+hsql-db.lck
+hsql-db.log
+hsql-db.properties
+hsql-db.script
+
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
