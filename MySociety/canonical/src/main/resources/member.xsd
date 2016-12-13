@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema targetNamespace="http://module.dto.domainapp/quickobject.xsd"
+<xs:schema targetNamespace="http://module.dto.society/member.xsd"
     elementFormDefault="qualified"
-    xmlns="http://module.dto.domainapp/quickobject.xsd"
+    xmlns="http://module.dto.society/member.xsd"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 
-    <xs:element name="quickObjectDto">
+    <xs:element name="memberDto">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="oid" type="oidDto"/>

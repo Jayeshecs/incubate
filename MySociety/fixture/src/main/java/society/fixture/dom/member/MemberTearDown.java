@@ -16,24 +16,21 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.integtests.tests;
 
-import org.junit.BeforeClass;
+package society.fixture.dom.member;
 
-import society.integtests.bootstrap.DomainAppSystemInitializer;
+import org.apache.isis.applib.fixturescripts.FixtureScript;
+import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 
-import org.apache.isis.core.integtestsupport.IntegrationTestAbstract;
-import org.apache.isis.core.integtestsupport.scenarios.ScenarioExecutionForIntegration;
+public class MemberTearDown extends FixtureScript {
 
-public abstract class DomainAppIntegTest extends IntegrationTestAbstract {
-
-    @BeforeClass
-    public static void initClass() {
-        org.apache.log4j.PropertyConfigurator.configure("logging.properties");
-        DomainAppSystemInitializer.initIsft();
-
-        // instantiating will install onto ThreadLocal
-        new ScenarioExecutionForIntegration();
+    @Override
+    protected void execute(ExecutionContext executionContext) {
+        isisJdoSupport.executeUpdate("delete from \"society\".\"Member\"");
     }
+
+
+    @javax.inject.Inject
+    private IsisJdoSupport isisJdoSupport;
 
 }

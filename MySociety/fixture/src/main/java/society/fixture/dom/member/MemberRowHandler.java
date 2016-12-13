@@ -1,4 +1,4 @@
-package society.fixture.dom.quick;
+package society.fixture.dom.member;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,10 +14,10 @@ import org.isisaddons.module.excel.dom.ExcelFixtureRowHandler;
 
 import lombok.Getter;
 import lombok.Setter;
-import society.dom.quick.QuickObject;
-import society.dom.quick.QuickObjectRepository;
+import society.dom.member.Member;
+import society.dom.member.MemberRepository;
 
-public class QuickObjectRowHandler implements ExcelFixtureRowHandler {
+public class MemberRowHandler implements ExcelFixtureRowHandler {
 
     @Getter @Setter
     private String name;
@@ -37,14 +37,14 @@ public class QuickObjectRowHandler implements ExcelFixtureRowHandler {
             final ExcelFixture excelFixture,
             final Object previousRow) {
 
-        final QuickObject quickObject = repository.findOrCreate(name);
+        final Member member = repository.findOrCreate(name);
 
-        quickObject.setFlag(getFlag());
-        quickObject.setInteger(getInteger());
-        quickObject.setLocalDate(getLocalDate());
+        member.setFlag(getFlag());
+        member.setInteger(getInteger());
+        member.setLocalDate(getLocalDate());
 
-        executionContext.addResult(excelFixture, quickObject);
-        return Collections.singletonList(quickObject);
+        executionContext.addResult(excelFixture, member);
+        return Collections.singletonList(member);
     }
     private static double random(final double from, final double to) {
         return Math.random() * (to-from) + from;
@@ -52,6 +52,6 @@ public class QuickObjectRowHandler implements ExcelFixtureRowHandler {
 
 
     @Inject
-    QuickObjectRepository repository;
+    MemberRepository repository;
 
 }

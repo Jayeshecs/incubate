@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package society.dom.quick;
+package society.dom.member;
 
 import java.util.List;
 
@@ -36,9 +36,9 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 )
 @DomainServiceLayout(
         menuOrder = "10",
-        named = "Quick Objects"
+        named = "Members"
 )
-public class QuickObjectMenu {
+public class MemberMenu {
 
     //region > listAll (action)
     @Action(
@@ -48,8 +48,8 @@ public class QuickObjectMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public List<QuickObject> listAll() {
-        return quickObjectRepository.listAll();
+    public List<Member> listAll() {
+        return memberRepository.listAll();
     }
     //endregion
 
@@ -61,25 +61,25 @@ public class QuickObjectMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "2")
-    public List<QuickObject> findByName(
+    public List<Member> findByName(
             @ParameterLayout(named="Name")
             final String name
     ) {
-        return quickObjectRepository.findByNameContains(name);
+        return memberRepository.findByNameContains(name);
     }
     //endregion
 
     //region > create (action)
-    public static class CreateDomainEvent extends ActionDomainEvent<QuickObjectMenu> { }
+    public static class CreateDomainEvent extends ActionDomainEvent<MemberMenu> { }
 
     @Action(
             domainEvent = CreateDomainEvent.class
     )
     @MemberOrder(sequence = "3")
-    public QuickObject create(
+    public Member create(
             @ParameterLayout(named="Name")
             final String name) {
-        return quickObjectRepository.create(name);
+        return memberRepository.create(name);
     }
 
     //endregion
@@ -87,7 +87,7 @@ public class QuickObjectMenu {
     //region > injected services
 
     @javax.inject.Inject
-    QuickObjectRepository quickObjectRepository;
+    MemberRepository memberRepository;
 
     //endregion
 }

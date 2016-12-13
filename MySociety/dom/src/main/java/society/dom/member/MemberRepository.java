@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package society.dom.quick;
+package society.dom.member;
 
 import java.util.List;
 
@@ -28,27 +28,27 @@ import org.apache.isis.applib.query.QueryDefault;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
-        repositoryFor = QuickObject.class
+        repositoryFor = Member.class
 )
-public class QuickObjectRepository {
+public class MemberRepository {
 
     //region > listAll (programmatic)
 
     @Programmatic
-    public List<QuickObject> listAll() {
-        return container.allInstances(QuickObject.class);
+    public List<Member> listAll() {
+        return container.allInstances(Member.class);
     }
     //endregion
 
     //region > findByName (programmatic)
 
     @Programmatic
-    public QuickObject findByName(
+    public Member findByName(
             final String name
     ) {
         return container.uniqueMatch(
                 new QueryDefault<>(
-                        QuickObject.class,
+                        Member.class,
                         "findByName",
                         "name", name));
     }
@@ -57,12 +57,12 @@ public class QuickObjectRepository {
     //region > findByNameContains (programmatic)
 
     @Programmatic
-    public List<QuickObject> findByNameContains(
+    public List<Member> findByNameContains(
             final String name
     ) {
         return container.allMatches(
                 new QueryDefault<>(
-                        QuickObject.class,
+                        Member.class,
                         "findByNameContains",
                         "name", name));
     }
@@ -71,8 +71,8 @@ public class QuickObjectRepository {
     //region > create (programmatic)
 
     @Programmatic
-    public QuickObject create(final String name) {
-        final QuickObject obj = container.newTransientInstance(QuickObject.class);
+    public Member create(final String name) {
+        final Member obj = container.newTransientInstance(Member.class);
         obj.setName(name);
         container.persistIfNotAlready(obj);
         return obj;
@@ -83,14 +83,14 @@ public class QuickObjectRepository {
     //region > findOrCreate (programmatic)
 
     @Programmatic
-    public QuickObject findOrCreate(
+    public Member findOrCreate(
             final String name
     ) {
-        QuickObject quickObject = findByName(name);
-        if(quickObject == null) {
-            quickObject = create(name);
+        Member member = findByName(name);
+        if(member == null) {
+            member = create(name);
         }
-        return quickObject;
+        return member;
     }
     //endregion
 

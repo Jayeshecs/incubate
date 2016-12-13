@@ -23,29 +23,29 @@ import java.util.List;
 import org.apache.isis.applib.annotation.ViewModel;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 
-import society.dom.quick.QuickObject;
-import society.dom.quick.QuickObjectRepository;
+import society.dom.member.Member;
+import society.dom.member.MemberRepository;
 
 @ViewModel
 public class HomePageViewModel {
 
     //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("{num} objects", "num", getObjects().size());
+        return TranslatableString.tr("{num} objects", "num", getMembers().size());
     }
     //endregion
 
-    //region > object (collection)
+    //region > members (collection)
     @org.apache.isis.applib.annotation.HomePage
-    public List<QuickObject> getObjects() {
-        return quickObjectRepository.listAll();
+    public List<Member> getMembers() {
+        return memberRepository.listAll();
     }
     //endregion
 
     //region > injected services
 
     @javax.inject.Inject
-    QuickObjectRepository quickObjectRepository;
+    MemberRepository memberRepository;
 
     //endregion
 }

@@ -31,11 +31,11 @@ import org.apache.isis.applib.services.bookmark.BookmarkService;
 import org.apache.isis.viewer.restfulobjects.applib.RepresentationType;
 import org.apache.isis.viewer.restfulobjects.rendering.service.conmap.ContentMappingService;
 
-import domainapp.dto.module.quickobject.OidDto;
-import domainapp.dto.module.quickobject.QuickObjectDto;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
-import society.dom.quick.QuickObject;
+import society.dom.member.Member;
+import society.dto.module.member.MemberDto;
+import society.dto.module.member.OidDto;
 
 @DomainService(
         nature = NatureOfService.DOMAIN
@@ -49,7 +49,7 @@ public class DomainAppContentMappingService implements ContentMappingService {
     public void init() {
         mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.registerClassMap(
-                mapperFactory.classMap(QuickObject.class, QuickObjectDto.class)
+                mapperFactory.classMap(Member.class, MemberDto.class)
                         .byDefault() // all fields are the compatible
                         .toClassMap());
         mapperFactory.registerClassMap(
@@ -66,10 +66,10 @@ public class DomainAppContentMappingService implements ContentMappingService {
             final List<MediaType> acceptableMediaTypes,
             final RepresentationType representationType) {
 
-        if(object instanceof QuickObject) {
+        if(object instanceof Member) {
             final Bookmark bookmark = bookmarkService.bookmarkFor(object);
 
-            final QuickObjectDto dto = mapperFactory.getMapperFacade().map(object, QuickObjectDto.class);
+            final MemberDto dto = mapperFactory.getMapperFacade().map(object, MemberDto.class);
             final OidDto oidDto = mapperFactory.getMapperFacade().map(bookmark, OidDto.class);
 
             // manually wire together

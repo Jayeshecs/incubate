@@ -17,16 +17,16 @@
  *  under the License.
  */
 
-package society.fixture.dom.quick;
+package society.fixture.dom.member;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
 import lombok.Getter;
 import lombok.Setter;
-import society.dom.quick.QuickObject;
-import society.dom.quick.QuickObjectMenu;
+import society.dom.member.Member;
+import society.dom.member.MemberMenu;
 
-public class QuickObjectCreate extends FixtureScript {
+public class MemberCreate extends FixtureScript {
 
     /**
      * input: name of the object (required)
@@ -39,7 +39,7 @@ public class QuickObjectCreate extends FixtureScript {
      * The created simple object (output).
      */
     @Getter
-    private QuickObject quickObject;
+    private Member member;
 
 
     @Override
@@ -47,13 +47,13 @@ public class QuickObjectCreate extends FixtureScript {
 
         String name = checkParam("name", ec, String.class);
 
-        this.quickObject = wrap(quickObjectMenu).create(name);
+        this.member = wrap(memberMenu).create(name);
 
         // also make available to UI
-        ec.addResult(this, quickObject);
+        ec.addResult(this, member);
     }
 
     @javax.inject.Inject
-    private QuickObjectMenu quickObjectMenu;
+    private MemberMenu memberMenu;
 
 }

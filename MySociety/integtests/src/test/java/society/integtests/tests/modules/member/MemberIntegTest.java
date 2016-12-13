@@ -16,14 +16,13 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.integtests.tests.modules.quick;
+package society.integtests.tests.modules.member;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Timestamp;
 
 import javax.inject.Inject;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.fixturescripts.FixtureScripts;
@@ -31,21 +30,21 @@ import org.apache.isis.applib.services.wrapper.DisabledException;
 import org.apache.isis.applib.services.wrapper.InvalidException;
 import org.apache.isis.core.metamodel.services.jdosupport.Persistable_datanucleusIdLong;
 import org.apache.isis.core.metamodel.services.jdosupport.Persistable_datanucleusVersionTimestamp;
+import org.junit.Before;
+import org.junit.Test;
 
-import domainapp.integtests.tests.DomainAppIntegTest;
-import society.dom.quick.QuickObject;
+import society.dom.member.Member;
 import society.fixture.scenarios.demo.DemoFixture;
+import society.integtests.tests.DomainAppIntegTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class QuickObjectIntegTest extends DomainAppIntegTest {
+public class MemberIntegTest extends DomainAppIntegTest {
 
     @Inject
     FixtureScripts fixtureScripts;
 
     DemoFixture fs;
-    QuickObject quickObjectPojo;
-    QuickObject quickObjectWrapped;
+    Member memberPojo;
+    Member memberWrapped;
 
     @Before
     public void setUp() throws Exception {
@@ -53,18 +52,18 @@ public class QuickObjectIntegTest extends DomainAppIntegTest {
         fs = new DemoFixture();
         fixtureScripts.runFixtureScript(fs, null);
 
-        quickObjectPojo = fs.getQuickObjects().get(0);
+        memberPojo = fs.getMembers().get(0);
 
-        assertThat(quickObjectPojo).isNotNull();
-        quickObjectWrapped = wrap(quickObjectPojo);
+        assertThat(memberPojo).isNotNull();
+        memberWrapped = wrap(memberPojo);
     }
 
-    public static class Name extends QuickObjectIntegTest {
+    public static class Name extends MemberIntegTest {
 
         @Test
         public void accessible() throws Exception {
             // when
-            final String name = quickObjectWrapped.getName();
+            final String name = memberWrapped.getName();
             // then
             assertThat(name).isNotNull();
         }
@@ -76,20 +75,20 @@ public class QuickObjectIntegTest extends DomainAppIntegTest {
             expectedExceptions.expect(DisabledException.class);
 
             // when
-            quickObjectWrapped.setName("new name");
+            memberWrapped.setName("new name");
         }
     }
 
-    public static class UpdateName extends QuickObjectIntegTest {
+    public static class UpdateName extends MemberIntegTest {
 
         @Test
         public void happyCase() throws Exception {
 
             // when
-            quickObjectWrapped.updateName("new name");
+            memberWrapped.updateName("new name");
 
             // then
-            assertThat(quickObjectWrapped.getName()).isEqualTo("new name");
+            assertThat(memberWrapped.getName()).isEqualTo("new name");
         }
 
         @Test
@@ -100,12 +99,12 @@ public class QuickObjectIntegTest extends DomainAppIntegTest {
             expectedExceptions.expectMessage("Exclamation mark is not allowed");
 
             // when
-            quickObjectWrapped.updateName("new name!");
+            memberWrapped.updateName("new name!");
         }
     }
 
 
-    public static class Title extends QuickObjectIntegTest {
+    public static class Title extends MemberIntegTest {
 
         @Inject
         DomainObjectContainer container;
@@ -114,33 +113,33 @@ public class QuickObjectIntegTest extends DomainAppIntegTest {
         public void interpolatesName() throws Exception {
 
             // given
-            final String name = quickObjectWrapped.getName();
+            final String name = memberWrapped.getName();
 
             // when
-            final String title = container.titleOf(quickObjectWrapped);
+            final String title = container.titleOf(memberWrapped);
 
             // then
             assertThat(title).isEqualTo("Object: " + name);
         }
     }
 
-    public static class DataNucleusId extends QuickObjectIntegTest {
+    public static class DataNucleusId extends MemberIntegTest {
 
         @Test
         public void shouldBePopulated() throws Exception {
             // when
-            final Long id = mixin(Persistable_datanucleusIdLong.class, quickObjectPojo).$$();
+            final Long id = mixin(Persistable_datanucleusIdLong.class, memberPojo).$$();
             // then
             assertThat(id).isGreaterThanOrEqualTo(0);
         }
     }
 
-    public static class DataNucleusVersionTimestamp extends QuickObjectIntegTest {
+    public static class DataNucleusVersionTimestamp extends MemberIntegTest {
 
         @Test
         public void shouldBePopulated() throws Exception {
             // when
-            final Timestamp timestamp = mixin(Persistable_datanucleusVersionTimestamp.class, quickObjectPojo).$$();
+            final Timestamp timestamp = mixin(Persistable_datanucleusVersionTimestamp.class, memberPojo).$$();
             // then
             assertThat(timestamp).isNotNull();
         }

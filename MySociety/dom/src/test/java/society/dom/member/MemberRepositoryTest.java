@@ -14,15 +14,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package society.dom.quick;
+package society.dom.member;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
-import society.dom.quick.QuickObject;
-import society.dom.quick.QuickObjectRepository;
-
+import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.core.unittestsupport.jmocking.JUnitRuleMockery2;
+import org.apache.isis.core.unittestsupport.jmocking.JUnitRuleMockery2.Mode;
 import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.auto.Mock;
@@ -30,13 +30,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import org.apache.isis.applib.DomainObjectContainer;
-import org.apache.isis.core.unittestsupport.jmocking.JUnitRuleMockery2;
-import org.apache.isis.core.unittestsupport.jmocking.JUnitRuleMockery2.Mode;
+import com.google.common.collect.Lists;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class QuickObjectRepositoryTest {
+public class MemberRepositoryTest {
 
     @Rule
     public JUnitRuleMockery2 context = JUnitRuleMockery2.createFor(Mode.INTERFACES_AND_CLASSES);
@@ -44,61 +40,61 @@ public class QuickObjectRepositoryTest {
     @Mock
     DomainObjectContainer mockContainer;
     
-    QuickObjectRepository quickObjectRepository;
+    MemberRepository memberRepository;
 
     @Before
     public void setUp() throws Exception {
-        quickObjectRepository = new QuickObjectRepository();
-        quickObjectRepository.container = mockContainer;
+        memberRepository = new MemberRepository();
+        memberRepository.container = mockContainer;
     }
 
-    public static class Create extends QuickObjectRepositoryTest {
+    public static class Create extends MemberRepositoryTest {
 
         @Test
         public void happyCase() throws Exception {
 
             // given
-            final QuickObject quickObject = new QuickObject();
+            final Member Member = new Member();
 
             final Sequence seq = context.sequence("create");
             context.checking(new Expectations() {
                 {
-                    oneOf(mockContainer).newTransientInstance(QuickObject.class);
+                    oneOf(mockContainer).newTransientInstance(Member.class);
                     inSequence(seq);
-                    will(returnValue(quickObject));
+                    will(returnValue(Member));
 
-                    oneOf(mockContainer).persistIfNotAlready(quickObject);
+                    oneOf(mockContainer).persistIfNotAlready(Member);
                     inSequence(seq);
                 }
             });
 
             // when
-            final QuickObject obj = quickObjectRepository.create("Foobar");
+            final Member obj = memberRepository.create("Foobar");
 
             // then
-            assertThat(obj).isEqualTo(quickObject);
+            assertThat(obj).isEqualTo(Member);
             assertThat(obj.getName()).isEqualTo("Foobar");
         }
 
     }
 
-    public static class ListAll extends QuickObjectRepositoryTest {
+    public static class ListAll extends MemberRepositoryTest {
 
         @Test
         public void happyCase() throws Exception {
 
             // given
-            final List<QuickObject> all = Lists.newArrayList();
+            final List<Member> all = Lists.newArrayList();
 
             context.checking(new Expectations() {
                 {
-                    oneOf(mockContainer).allInstances(QuickObject.class);
+                    oneOf(mockContainer).allInstances(Member.class);
                     will(returnValue(all));
                 }
             });
 
             // when
-            final List<QuickObject> list = quickObjectRepository.listAll();
+            final List<Member> list = memberRepository.listAll();
 
             // then
             assertThat(list).isEqualTo(all);

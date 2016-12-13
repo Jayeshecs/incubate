@@ -14,37 +14,35 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package society.dom.quick;
+package society.dom.member;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import society.dom.quick.QuickObject;
+public class MemberTest {
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class QuickObjectTest {
-
-    QuickObject quickObject;
+    Member member;
 
     @Before
     public void setUp() throws Exception {
-        quickObject = new QuickObject();
+        member = new Member();
     }
 
-    public static class Name extends QuickObjectTest {
+    public static class Name extends MemberTest {
 
         @Test
         public void happyCase() throws Exception {
             // given
             String name = "Foobar";
-            assertThat(quickObject.getName()).isNull();
+            assertThat(member.getName()).isNull();
 
             // when
-            quickObject.setName(name);
+            member.setName(name);
 
             // then
-            assertThat(quickObject.getName()).isEqualTo(name);
+            assertThat(member.getName()).isEqualTo(name);
         }
     }
 

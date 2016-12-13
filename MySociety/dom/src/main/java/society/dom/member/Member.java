@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package society.dom.quick;
+package society.dom.member;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -39,8 +39,8 @@ import lombok.Setter;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
-        schema = "quick",
-        table = "QuickObject"
+        schema = "society",
+        table = "Member"
 )
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
@@ -53,19 +53,19 @@ import lombok.Setter;
         @javax.jdo.annotations.Query(
                 name = "find", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM society.dom.quick.QuickObject "),
+                        + "FROM society.dom.member.Member "),
         @javax.jdo.annotations.Query(
                 name = "findByNameContains", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM society.dom.quick.QuickObject "
+                        + "FROM society.dom.member.Member "
                         + "WHERE name.indexOf(:name) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM society.dom.quick.QuickObject "
+                        + "FROM society.dom.member.Member "
                         + "WHERE name == :name ")
 })
-@javax.jdo.annotations.Unique(name="QuickObject_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="Member_name_UNQ", members = {"name"})
 @DomainObject(
         editing = Editing.DISABLED
 )
@@ -73,7 +73,7 @@ import lombok.Setter;
         bookmarking = BookmarkPolicy.AS_ROOT
         // ,cssClassFa = "fa-flag" // use the .png instead
 )
-public class QuickObject implements Comparable<QuickObject> {
+public class Member implements Comparable<Member> {
 
 
     public TranslatableString title() {
@@ -81,7 +81,7 @@ public class QuickObject implements Comparable<QuickObject> {
     }
 
     @Override
-    public int compareTo(final QuickObject other) {
+    public int compareTo(final Member other) {
         return ObjectContracts.compare(this, other, "name");
     }
 
@@ -110,9 +110,9 @@ public class QuickObject implements Comparable<QuickObject> {
 
 
 
-    public static class UpdateNameDomainEvent extends ActionDomainEvent<QuickObject> { }
+    public static class UpdateNameDomainEvent extends ActionDomainEvent<Member> { }
     @Action(domainEvent = UpdateNameDomainEvent.class)
-    public QuickObject updateName(
+    public Member updateName(
             @Parameter(maxLength = 40)
             final String newName) {
         setName(newName);
@@ -126,9 +126,9 @@ public class QuickObject implements Comparable<QuickObject> {
     }
 
 
-    public static class UpdateIntegerDomainEvent extends ActionDomainEvent<QuickObject> { }
+    public static class UpdateIntegerDomainEvent extends ActionDomainEvent<Member> { }
     @Action(domainEvent = UpdateIntegerDomainEvent.class)
-    public QuickObject updateInteger(
+    public Member updateInteger(
             final Integer newInteger) {
         setInteger(newInteger);
         return this;
@@ -138,9 +138,9 @@ public class QuickObject implements Comparable<QuickObject> {
     }
 
 
-    public static class UpdateLocalDateDomainEvent extends ActionDomainEvent<QuickObject> { }
+    public static class UpdateLocalDateDomainEvent extends ActionDomainEvent<Member> { }
     @Action(domainEvent = UpdateLocalDateDomainEvent.class)
-    public QuickObject updateLocalDate(
+    public Member updateLocalDate(
             final LocalDate newLocaldate) {
         setLocalDate(newLocaldate);
         return this;
@@ -150,9 +150,9 @@ public class QuickObject implements Comparable<QuickObject> {
     }
 
 
-    public static class UpdateBooleanDomainEvent extends ActionDomainEvent<QuickObject> { }
+    public static class UpdateBooleanDomainEvent extends ActionDomainEvent<Member> { }
     @Action(domainEvent = UpdateBooleanDomainEvent.class)
-    public QuickObject updateFlag(
+    public Member updateFlag(
             final Boolean newFlag) {
         setFlag(newFlag);
         return this;

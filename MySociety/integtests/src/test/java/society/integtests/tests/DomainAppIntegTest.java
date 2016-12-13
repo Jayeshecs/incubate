@@ -16,21 +16,24 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
+package society.integtests.tests;
 
-package society.fixture.dom.quick;
+import org.junit.BeforeClass;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
+import society.integtests.bootstrap.DomainAppSystemInitializer;
 
-public class QuickObjectsTearDown extends FixtureScript {
+import org.apache.isis.core.integtestsupport.IntegrationTestAbstract;
+import org.apache.isis.core.integtestsupport.scenarios.ScenarioExecutionForIntegration;
 
-    @Override
-    protected void execute(ExecutionContext executionContext) {
-        isisJdoSupport.executeUpdate("delete from \"quick\".\"QuickObject\"");
+public abstract class DomainAppIntegTest extends IntegrationTestAbstract {
+
+    @BeforeClass
+    public static void initClass() {
+        org.apache.log4j.PropertyConfigurator.configure("logging.properties");
+        DomainAppSystemInitializer.initIsft();
+
+        // instantiating will install onto ThreadLocal
+        new ScenarioExecutionForIntegration();
     }
-
-
-    @javax.inject.Inject
-    private IsisJdoSupport isisJdoSupport;
 
 }

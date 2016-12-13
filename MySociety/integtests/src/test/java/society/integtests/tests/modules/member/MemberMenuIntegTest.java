@@ -16,39 +16,38 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.integtests.tests.modules.quick;
+package society.integtests.tests.modules.member;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import com.google.common.base.Throwables;
-
+import org.apache.isis.applib.fixturescripts.FixtureScript;
+import org.apache.isis.applib.fixturescripts.FixtureScripts;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-import org.apache.isis.applib.fixturescripts.FixtureScripts;
+import com.google.common.base.Throwables;
 
-import domainapp.integtests.tests.DomainAppIntegTest;
-import society.dom.quick.QuickObject;
-import society.dom.quick.QuickObjectMenu;
-import society.fixture.dom.quick.QuickObjectsTearDown;
+import society.dom.member.Member;
+import society.dom.member.MemberMenu;
+import society.fixture.dom.member.MemberTearDown;
 import society.fixture.scenarios.demo.DemoFixture;
+import society.integtests.tests.DomainAppIntegTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class QuickObjectMenuIntegTest extends DomainAppIntegTest {
+public class MemberMenuIntegTest extends DomainAppIntegTest {
 
     @Inject
     FixtureScripts fixtureScripts;
     @Inject
-    QuickObjectMenu quickObjectMenu;
+    MemberMenu memberMenu;
 
-    public static class ListAll extends QuickObjectMenuIntegTest {
+    public static class ListAll extends MemberMenuIntegTest {
 
         @Test
         public void happyCase() throws Exception {
@@ -59,46 +58,46 @@ public class QuickObjectMenuIntegTest extends DomainAppIntegTest {
             nextTransaction();
 
             // when
-            final List<QuickObject> all = wrap(quickObjectMenu).listAll();
+            final List<Member> all = wrap(memberMenu).listAll();
 
             // then
-            assertThat(all).hasSize(fs.getQuickObjects().size());
+            assertThat(all).hasSize(fs.getMembers().size());
 
-            QuickObject quickObject = wrap(all.get(0));
-            assertThat(quickObject.getName()).isEqualTo(fs.getQuickObjects().get(0).getName());
+            Member member = wrap(all.get(0));
+            assertThat(member.getName()).isEqualTo(fs.getMembers().get(0).getName());
         }
 
         @Test
         public void whenNone() throws Exception {
 
             // given
-            FixtureScript fs = new QuickObjectsTearDown();
+            FixtureScript fs = new MemberTearDown();
             fixtureScripts.runFixtureScript(fs, null);
             nextTransaction();
 
             // when
-            final List<QuickObject> all = wrap(quickObjectMenu).listAll();
+            final List<Member> all = wrap(memberMenu).listAll();
 
             // then
             assertThat(all).hasSize(0);
         }
     }
 
-    public static class Create extends QuickObjectMenuIntegTest {
+    public static class Create extends MemberMenuIntegTest {
 
         @Test
         public void happyCase() throws Exception {
 
             // given
-            FixtureScript fs = new QuickObjectsTearDown();
+            FixtureScript fs = new MemberTearDown();
             fixtureScripts.runFixtureScript(fs, null);
             nextTransaction();
 
             // when
-            wrap(quickObjectMenu).create("Faz");
+            wrap(memberMenu).create("Faz");
 
             // then
-            final List<QuickObject> all = wrap(quickObjectMenu).listAll();
+            final List<Member> all = wrap(memberMenu).listAll();
             assertThat(all).hasSize(1);
         }
 
@@ -106,17 +105,17 @@ public class QuickObjectMenuIntegTest extends DomainAppIntegTest {
         public void whenAlreadyExists() throws Exception {
 
             // given
-            FixtureScript fs = new QuickObjectsTearDown();
+            FixtureScript fs = new MemberTearDown();
             fixtureScripts.runFixtureScript(fs, null);
             nextTransaction();
-            wrap(quickObjectMenu).create("Faz");
+            wrap(memberMenu).create("Faz");
             nextTransaction();
 
             // then
             expectedExceptions.expectCause(causalChainContains(SQLIntegrityConstraintViolationException.class));
 
             // when
-            wrap(quickObjectMenu).create("Faz");
+            wrap(memberMenu).create("Faz");
             nextTransaction();
         }
 

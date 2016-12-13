@@ -23,17 +23,16 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.isis.applib.fixturescripts.FixtureScript;
+import org.isisaddons.module.excel.dom.ExcelFixture;
+
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-
-import org.isisaddons.module.excel.dom.ExcelFixture;
-
 import lombok.Getter;
-import society.dom.quick.QuickObject;
-import society.fixture.dom.quick.QuickObjectRowHandler;
-import society.fixture.dom.quick.QuickObjectsTearDown;
+import society.dom.member.Member;
+import society.fixture.dom.member.MemberRowHandler;
+import society.fixture.dom.member.MemberTearDown;
 
 public class DemoFixture extends FixtureScript {
 
@@ -42,17 +41,17 @@ public class DemoFixture extends FixtureScript {
     }
 
     /**
-     * The quick objects created by this fixture (output).
+     * The member created by this fixture (output).
      */
     @Getter
-    private final List<QuickObject> quickObjects = Lists.newArrayList();
+    private final List<Member> members = Lists.newArrayList();
 
 
     @Override
     protected void execute(final ExecutionContext ec) {
 
         // zap everything
-        ec.executeChild(this, new QuickObjectsTearDown());
+        ec.executeChild(this, new MemberTearDown());
 
         // load data from spreadsheet
         final URL spreadsheet = Resources.getResource(DemoFixture.class, "DemoFixture.xlsx");
@@ -62,14 +61,14 @@ public class DemoFixture extends FixtureScript {
         // make objects created by ExcelFixture available to our caller.
         final Map<Class, List<Object>> objectsByClass = fs.getObjectsByClass();
 
-        getQuickObjects().addAll((List)objectsByClass.get(QuickObject.class));
-        getQuickObjects().addAll((List)objectsByClass.get(QuickObjectRowHandler.class));
+        getMembers().addAll((List)objectsByClass.get(Member.class));
+        getMembers().addAll((List)objectsByClass.get(MemberRowHandler.class));
     }
 
     private Class[] getHandlers() {
         return new Class[]{
-                QuickObject.class,
-                QuickObjectRowHandler.class
+                Member.class,
+                MemberRowHandler.class
         };
     }
 }
