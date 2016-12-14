@@ -48,16 +48,16 @@ public class DomainAppAppManifest implements AppManifest {
                 ,org.isisaddons.module.excel.ExcelModule.class // to run fixtures
                 ,org.isisaddons.module.settings.SettingsModule.class // used by DomainAppUserSettingsThemeProvider
 
-//                ,org.isisaddons.module.audit.AuditModule.class
-//                ,org.isisaddons.module.command.CommandModule.class
+                ,org.isisaddons.module.audit.AuditModule.class
+                ,org.isisaddons.module.command.CommandModule.class
 //                ,org.isisaddons.module.devutils.DevUtilsModule.class
-//                ,org.isisaddons.module.docx.DocxModule.class
-//                ,org.isisaddons.module.fakedata.FakeDataModule.class
+                ,org.isisaddons.module.docx.DocxModule.class
+                ,org.isisaddons.module.fakedata.FakeDataModule.class
 //                ,org.isisaddons.module.publishing.PublishingModule.class
                 ,org.isisaddons.module.security.SecurityModule.class
-//                ,org.isisaddons.module.sessionlogger.SessionLoggerModule.class
-//                ,org.incode.module.note.dom.NoteModule.class
-//                ,org.incode.module.commchannel.dom.CommChannelModule.class
+                ,org.isisaddons.module.sessionlogger.SessionLoggerModule.class
+                ,org.incode.module.note.dom.NoteModule.class
+                ,org.incode.module.commchannel.dom.CommChannelModule.class
                 );
     }
 

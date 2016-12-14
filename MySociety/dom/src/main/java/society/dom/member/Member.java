@@ -18,24 +18,36 @@
  */
 package society.dom.member;
 
+import java.io.IOException;
+import java.util.Collection;
+
+import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
+import javax.jdo.metadata.TypeMetadata;
+import javax.xml.bind.JAXBException;
 
-import org.joda.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
 
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Parameter;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.RestrictTo;
+import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
+import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 import org.apache.isis.applib.util.ObjectContracts;
-
-import lombok.Getter;
-import lombok.Setter;
+import org.apache.isis.applib.value.Clob;
+import org.joda.time.LocalDate;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -162,4 +174,42 @@ public class Member implements Comparable<Member> {
     }
 
 
+    public static class DownloadJdoMetadataActionEvent extends org.apache.isis.applib.IsisApplibModule.ActionDomainEvent<Member> {}
+
+    @Action(
+            domainEvent = DownloadJdoMetadataActionEvent.class,
+            semantics = SemanticsOf.SAFE,
+            restrictTo = RestrictTo.PROTOTYPING
+    )
+    @ActionLayout(
+            cssClassFa = "fa-download",
+            position = ActionLayout.Position.PANEL_DROPDOWN
+    )
+    @MemberOrder(name = "Metadata", sequence = "710.1")
+    public Clob $$(
+            @ParameterLayout(named = ".jdo file name")
+            final String fileName) throws JAXBException, IOException {
+
+    	StringBuilder sb = new StringBuilder();
+    	for(Class<?> clazz : getPersistenceManagerFactory().getManagedClasses()) {
+    		final String objClassName = clazz.getName();
+    		
+    		final TypeMetadata metadata = getPersistenceManagerFactory().getMetadata(objClassName);
+    		sb.append(metadata.toString());
+    		sb.append("\n");
+    	}
+
+        return new Clob(fileName + ".jdo", "text/xml", sb.toString());
+    }
+
+    public String default0$$() {
+        return "AllJdoMetadata.xml";
+    }
+
+    PersistenceManagerFactory getPersistenceManagerFactory() {
+        return jdoSupport.getJdoPersistenceManager().getPersistenceManagerFactory();
+    }
+
+    @javax.inject.Inject
+    IsisJdoSupport jdoSupport;
 }

@@ -47,7 +47,7 @@ public class MemberRepository {
             final String name
     ) {
         return container.uniqueMatch(
-                new QueryDefault<>(
+                new QueryDefault<Member>(
                         Member.class,
                         "findByName",
                         "name", name));
@@ -61,7 +61,7 @@ public class MemberRepository {
             final String name
     ) {
         return container.allMatches(
-                new QueryDefault<>(
+                new QueryDefault<Member>(
                         Member.class,
                         "findByNameContains",
                         "name", name));
