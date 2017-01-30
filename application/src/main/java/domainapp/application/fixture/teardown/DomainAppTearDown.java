@@ -28,9 +28,9 @@ public class DomainAppTearDown extends FixtureScript {
 
     @Override
     protected void execute(ExecutionContext executionContext) {
-        executionContext.executeChild(this, new SimpleModuleTearDown());
-        executionContext.executeChild(this, new CommonModuleTearDown());
         executionContext.executeChild(this, new SourceManagementModuleTearDown());
+        executionContext.executeChild(this, new CommonModuleTearDown());
+        executionContext.executeChild(this, new SimpleModuleTearDown());
     }
 
 }
