@@ -22,12 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.isis.applib.fixturescripts.FixtureScript;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-
-import domainapp.modules.simple.fixture.scenario.CreateSimpleObjects;
+import domainapp.modules.cmn.fixture.scenario.CreateCommonObjects;
+import domainapp.modules.frd.fixture.scenario.CreateFRDObjects;
+import domainapp.modules.sm.fixture.scenario.CreateSourceManagementObjects;
 
 /**
  * Run the app but without setting up any fixtures.
@@ -39,7 +41,7 @@ public class DomainAppAppManifestWithFixtures extends DomainAppAppManifest {
      */
     @Override
     public List<Class<? extends FixtureScript>> getFixtures() {
-        return Lists.newArrayList(CreateSimpleObjects.class);
+        return Lists.newArrayList(CreateCommonObjects.class, CreateFRDObjects.class, CreateSourceManagementObjects.class);
     }
 
     /**

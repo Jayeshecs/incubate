@@ -16,21 +16,18 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.application.fixture.teardown;
+package domainapp.modules.frd.dom;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
+public final class FRDModuleDomSubmodule {
+    private FRDModuleDomSubmodule(){}
 
-import domainapp.modules.cmn.fixture.teardown.CommonModuleTearDown;
-import domainapp.modules.frd.fixture.teardown.FRDModuleTearDown;
-import domainapp.modules.sm.fixture.teardown.SourceManagementModuleTearDown;
-
-public class DomainAppTearDown extends FixtureScript {
-
-    @Override
-    protected void execute(ExecutionContext executionContext) {
-        executionContext.executeChild(this, new SourceManagementModuleTearDown());
-        executionContext.executeChild(this, new CommonModuleTearDown());
-        executionContext.executeChild(this, new FRDModuleTearDown());
-    }
-
+    @SuppressWarnings("serial")
+	public static class PropertyDomainEvent<S,T>
+            extends org.apache.isis.applib.services.eventbus.PropertyDomainEvent<S,T> {}
+    @SuppressWarnings("serial")
+    public static class CollectionDomainEvent<S,T>
+            extends org.apache.isis.applib.services.eventbus.CollectionDomainEvent<S,T> {}
+    @SuppressWarnings("serial")
+    public static class ActionDomainEvent<S> extends
+            org.apache.isis.applib.services.eventbus.ActionDomainEvent<S> {}
 }

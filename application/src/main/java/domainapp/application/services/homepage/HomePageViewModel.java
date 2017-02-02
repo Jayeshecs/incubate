@@ -23,20 +23,65 @@ import java.util.List;
 import org.apache.isis.applib.annotation.ViewModel;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 
-import domainapp.modules.simple.dom.impl.SimpleObject;
-import domainapp.modules.simple.dom.impl.SimpleObjectRepository;
+import domainapp.modules.cmn.dom.impl.Profile;
+import domainapp.modules.cmn.dom.impl.ProfileRepository;
+import domainapp.modules.frd.dom.impl.AssetGroup;
+import domainapp.modules.frd.dom.impl.AssetGroupRepository;
+import domainapp.modules.frd.dom.impl.AssetType;
+import domainapp.modules.frd.dom.impl.AssetTypeRepository;
+import domainapp.modules.frd.dom.impl.ContractUnit;
+import domainapp.modules.frd.dom.impl.ContractUnitRepository;
+import domainapp.modules.frd.dom.impl.RuleChapter;
+import domainapp.modules.frd.dom.impl.RuleChapterRepository;
+import domainapp.modules.frd.dom.impl.SubAssetType;
+import domainapp.modules.frd.dom.impl.SubAssetTypeRepository;
 
 @ViewModel
 public class HomePageViewModel {
 
     public TranslatableString title() {
-        return TranslatableString.tr("{num} objects", "num", getObjects().size());
+        return TranslatableString.tr("{num} profiles", "num", getProfiles().size());
     }
 
-    public List<SimpleObject> getObjects() {
-        return simpleObjectRepository.listAll();
+    public List<Profile> getProfiles() {
+        return profileRepository.listAll();
     }
 
     @javax.inject.Inject
-    SimpleObjectRepository simpleObjectRepository;
+    ProfileRepository profileRepository;
+
+    public List<AssetGroup> getAssetGroups() {
+        return assetGroupRepository.listAll();
+    }
+
+    @javax.inject.Inject
+    AssetGroupRepository assetGroupRepository;
+
+    public List<AssetType> getAssetTypes() {
+        return assetTypeRepository.listAll();
+    }
+
+    @javax.inject.Inject
+    AssetTypeRepository assetTypeRepository;
+
+    public List<SubAssetType> getSubAssetTypes() {
+        return subAssetTypeRepository.listAll();
+    }
+
+    @javax.inject.Inject
+    SubAssetTypeRepository subAssetTypeRepository;
+
+    public List<RuleChapter> getRuleChapters() {
+        return ruleChapterRepository.listAll();
+    }
+
+    @javax.inject.Inject
+    RuleChapterRepository ruleChapterRepository;
+
+    public List<ContractUnit> getContractUnits() {
+        return contractUnitRepository.listAll();
+    }
+
+    @javax.inject.Inject
+    ContractUnitRepository contractUnitRepository;
 }

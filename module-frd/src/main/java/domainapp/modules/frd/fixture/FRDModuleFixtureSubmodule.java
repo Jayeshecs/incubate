@@ -16,21 +16,8 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.application.fixture.teardown;
+package domainapp.modules.frd.fixture;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-
-import domainapp.modules.cmn.fixture.teardown.CommonModuleTearDown;
-import domainapp.modules.frd.fixture.teardown.FRDModuleTearDown;
-import domainapp.modules.sm.fixture.teardown.SourceManagementModuleTearDown;
-
-public class DomainAppTearDown extends FixtureScript {
-
-    @Override
-    protected void execute(ExecutionContext executionContext) {
-        executionContext.executeChild(this, new SourceManagementModuleTearDown());
-        executionContext.executeChild(this, new CommonModuleTearDown());
-        executionContext.executeChild(this, new FRDModuleTearDown());
-    }
-
+public final class FRDModuleFixtureSubmodule {
+    private FRDModuleFixtureSubmodule(){}
 }

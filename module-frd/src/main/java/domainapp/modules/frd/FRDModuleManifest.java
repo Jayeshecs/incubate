@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.application.manifest;
+package domainapp.modules.frd;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,61 +26,40 @@ import java.util.Map;
 import org.apache.isis.applib.AppManifest;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.application.fixture.DomainAppApplicationModuleFixtureSubmodule;
-import domainapp.application.services.DomainAppApplicationModuleServicesSubmodule;
 import domainapp.modules.cmn.dom.CommonModuleDomSubmodule;
-import domainapp.modules.frd.dom.FRDModuleDomSubmodule;
-import domainapp.modules.sm.dom.SourceManagementModuleDomSubmodule;
+import domainapp.modules.cmn.fixture.CommonModuleFixtureSubmodule;
 
 /**
- * Bootstrap the application.
+ * Used by <code>isis-maven-plugin</code> (build-time validation of the module) and also by module-level integration tests.
  */
-public class DomainAppAppManifest implements AppManifest {
+public class FRDModuleManifest implements AppManifest {
 
-    /**
-     * Load all services and entities found in (the packages and subpackages within) these modules
-     */
     @Override
     public List<Class<?>> getModules() {
-        return Arrays.asList(
-                CommonModuleDomSubmodule.class,
-                FRDModuleDomSubmodule.class,
-                SourceManagementModuleDomSubmodule.class,
-                DomainAppApplicationModuleFixtureSubmodule.class,
-                DomainAppApplicationModuleServicesSubmodule.class
+        return Arrays.<Class<?>>asList(
+        		CommonModuleDomSubmodule.class,
+        		CommonModuleFixtureSubmodule.class
         );
     }
 
-    /**
-     * No additional services.
-     */
     @Override
     public List<Class<?>> getAdditionalServices() {
         return Collections.emptyList();
     }
 
-    /**
-     * Use shiro for authentication.
-     */
     @Override
     public String getAuthenticationMechanism() {
-        return "shiro";
+        return null;
     }
 
-    /**
-     * Use shiro for authorization.
-     */
     @Override
     public String getAuthorizationMechanism() {
-        return "shiro";
+        return null;
     }
 
-    /**
-     * No fixtures.
-     */
     @Override
     public List<Class<? extends FixtureScript>> getFixtures() {
-        return Collections.emptyList();
+        return null;
     }
 
     /**

@@ -36,7 +36,6 @@ public class HomePageService {
         return factoryService.instantiate(HomePageViewModel.class);
     }
 
-
     @javax.inject.Inject
     FactoryService factoryService;
 }

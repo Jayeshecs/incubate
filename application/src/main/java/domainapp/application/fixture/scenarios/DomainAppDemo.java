@@ -24,7 +24,7 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 
 import domainapp.application.fixture.teardown.DomainAppTearDown;
 import domainapp.modules.cmn.fixture.scenario.CreateCommonObjects;
-import domainapp.modules.simple.fixture.scenario.CreateSimpleObjects;
+import domainapp.modules.frd.fixture.scenario.CreateFRDObjects;
 import domainapp.modules.sm.fixture.scenario.CreateSourceManagementObjects;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,9 +44,9 @@ public class DomainAppDemo extends FixtureScript {
 
         // execute
         ec.executeChild(this, new DomainAppTearDown());
-        ec.executeChild(this, new CreateSimpleObjects().setNumber(number));
         ec.executeChild(this, new CreateCommonObjects());
         ec.executeChild(this, new CreateSourceManagementObjects());
+        ec.executeChild(this, new CreateFRDObjects());
 
     }
 }

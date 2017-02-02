@@ -58,7 +58,7 @@ import lombok.extern.slf4j.Slf4j;
         updatedLifecycleEvent = Profile.UpdatedEvent.class
 )
 @Slf4j
-public class Profile extends BasePersistableEntity implements Comparable<Profile>{
+public class Profile extends BasePersistableEntity implements Comparable<Profile>, ILookupEntity {
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @Property(editing = Editing.DISABLED)

@@ -363,14 +363,27 @@
             </dependency>
             <dependency>
             	<groupId>${project.groupId}</groupId>
-            	<artifactId>datamanager-module-sm</artifactId>
+            	<artifactId>datamanager-module-cmn</artifactId>
+            	<version>0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+            	<groupId>${project.groupId}</groupId>
+            	<artifactId>datamanager-module-frd</artifactId>
             	<version>0.1-SNAPSHOT</version>
             	<type>test-jar</type>
             </dependency>
             <dependency>
             	<groupId>${project.groupId}</groupId>
-            	<artifactId>datamanager-module-cmn</artifactId>
+            	<artifactId>datamanager-module-frd</artifactId>
             	<version>0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+            	<groupId>${project.groupId}</groupId>
+            	<artifactId>datamanager-module-sm</artifactId>
+            	<version>0.1-SNAPSHOT</version>
+            	<type>test-jar</type>
             </dependency>
             <dependency>
             	<groupId>${project.groupId}</groupId>
@@ -405,7 +418,7 @@
   <modules>
     <module>module-cmn</module>
     <module>module-sm</module>
-    <module>module-simple</module>
+    <module>module-frd</module>
     <module>application</module>
     <module>webapp</module>
   </modules>
