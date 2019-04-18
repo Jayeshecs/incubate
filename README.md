@@ -10,7 +10,15 @@ FUNCTIONAL REQUIREMENT
 
 R1 - create index of photoes based on image metadata
 
-Indexed information must be stored in [TODO]
+Indexed information must record below detail for each photo 
+- size in byte
+- name of file
+- mime type or format 
+- date and time 
+- resolution
+- location (gps)*
+- device*
+- tags/labels*
 
 R2 - orgaznie photos in standard folder structure year/month
 
